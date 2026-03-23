@@ -1,0 +1,231 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sys-bg: #050505;
+  --color-sys-cyan: #00f2ff;
+  --color-sys-blue: #0066ff;
+  --color-sys-pink: #ff00ff;
+  --color-panel: rgba(13, 13, 18, 0.85);
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-outfit: 'Outfit', sans-serif;
+  --ease-motion: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root {
+  --glow: 0 0 15px rgba(0, 242, 255, 0.2);
+}
+
+body {
+  @apply bg-sys-bg text-slate-300 overflow-hidden selection:bg-sys-cyan/30 font-outfit;
+  height: 100vh;
+}
+
+/* --- SYSTEM OVERLAYS --- */
+.noise {
+  @apply fixed inset-0 z-[100] pointer-events-none opacity-[0.03];
+  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+}
+
+.scanlines {
+  @apply fixed inset-0 z-[101] pointer-events-none opacity-[0.05];
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 4px, 3px 100%;
+}
+
+/* --- MODULAR WINDOWS --- */
+.window {
+  @apply bg-panel border-l-2 border-sys-blue backdrop-blur-3xl shadow-2xl overflow-hidden flex flex-col;
+  inset: 1rem;
+  /* Mobile Default */
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.98) translateY(10px) translateZ(0);
+  transition: opacity 0.6s var(--ease-motion), transform 0.6s var(--ease-motion), visibility 0.6s;
+  will-change: opacity, transform, visibility;
+}
+
+@screen md {
+  .window {
+    inset: 3rem;
+    /* Desktop Override (12 * 0.25rem = 3rem) */
+  }
+}
+
+.window.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1) translateY(0) translateZ(0);
+}
+
+/* Stagger Entry Framework */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px) translateZ(0);
+  transition: opacity 0.8s var(--ease-motion), transform 0.8s var(--ease-motion);
+  will-change: opacity, transform;
+}
+
+.window.active .stagger-item {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+.window-header {
+  @apply px-4 py-2 border-b border-white/5 flex items-center justify-between bg-white/[0.02];
+}
+
+.window-content {
+  @apply flex-1 p-4 md:p-12 overflow-y-auto;
+}
+
+.btn-tab {
+  @apply flex items-center gap-3 px-6 py-4 text-xs uppercase tracking-widest text-slate-500 border-l-2 border-transparent transition-all;
+}
+
+.btn-tab.active {
+  @apply text-sys-cyan border-sys-cyan bg-sys-cyan/5;
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
+}
+
+/* --- BUTTONS & TEXT --- */
+.glow-text {
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+}
+
+.mono {
+  @apply font-mono;
+}
+
+.badge {
+  @apply px-2 py-0.5 text-[8px] font-bold border rounded uppercase;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes pulse-cyan {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 242, 255, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 242, 255, 0);
+  }
+}
+
+.status-dot {
+  @apply w-1.5 h-1.5 rounded-full bg-sys-cyan;
+  animation: pulse-cyan 2s infinite;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* --- CUSTOM SYSTEM ANIMATIONS --- */
+@keyframes scan-line {
+  0% {
+    top: 0%;
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0.5;
+  }
+}
+
+.scan-line-anim {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0, 242, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 242, 255, 0.8);
+  z-index: 5;
+  pointer-events: none;
+  animation: scan-line 3s linear infinite;
+}
+
+@keyframes glitch-text {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.glitch-hover:hover {
+  animation: glitch-text 0.2s linear infinite;
+  color: var(--color-sys-cyan);
+}
+
+.system-badge {
+  @apply border border-sys-cyan/30 bg-sys-cyan/5 px-4 py-1.5 rounded-full text-sys-cyan font-mono font-bold uppercase tracking-widest transition-all;
+  box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
+}
+
+.system-badge:hover {
+  @apply bg-sys-cyan text-black border-sys-cyan;
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+}
+
+/* Mobile HUD Overrides */
+@screen sm {
+  .nav-btn span {
+    @apply hidden;
+    /* Hide tooltip labels on mobile if needed, but they are hover anyway */
+  }
+}
+
+@media (max-width: 640px) {
+  header {
+    @apply h-16 px-4;
+    gap: 1rem;
+  }
+
+  nav {
+    gap: 1rem !important;
+  }
+
+  .nav-btn ion-icon {
+    @apply text-lg;
+  }
+
+  #workspace {
+    padding: 0.5rem !important;
+  }
+
+  footer {
+    display: none !important;
+  }
+}

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRISYSTEMATIXX_OS | Elite Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;900&display=swap"
+        rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <style>
+        #boot-loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            color: #00f2ff;
+        }
+    </style>
+</head>
+
+<body class="bg-sys-bg text-slate-300">
+    <!-- Boot Screen -->
+    <div id="boot-loader">
+        <div class="text-xs mb-4">INITIALIZING_SYSTEM...</div>
+        <div class="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div id="boot-progress" class="h-full bg-sys-cyan w-0 transition-all duration-300"></div>
+        </div>
+        <div id="boot-status" class="mt-4 text-[10px] opacity-50 uppercase tracking-widest">Loading_Core_Modules</div>
+    </div>
+
+    <!-- UI Overlays -->
+    <div class="noise"></div>
+    <div class="scanlines"></div>
+
+    <!-- Main Desktop Layout -->
+    <div id="desktop" class="flex h-screen opacity-0 transition-opacity duration-1000">
+
+        <!-- Primary Navigation (Updated to Top Header) -->
+        <main class="flex-1 flex flex-col relative overflow-hidden">
+
+            <!-- Top HUD Panel -->
+            <header
+                class="h-20 border-b border-white/5 px-8 flex items-center justify-between bg-black/40 backdrop-blur-md z-50">
+                <!-- Left: Logo & System Info -->
+                <div class="flex items-center gap-8">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-sys-cyan/10 flex items-center justify-center border border-sys-cyan/20">
+                        <span class="text-sys-cyan font-black text-xl">C</span>
+                    </div>
+                    <div class="hidden md:flex items-center gap-4 mono text-[10px]">
+                        <span class="text-sys-cyan">SYSTEM_ONLINE</span>
+                        <span class="text-slate-700">|</span>
+                        <span class="text-slate-500 tracking-tighter">SEC_LVL: ALPHA</span>
+                    </div>
+                </div>
+
+                <!-- Center: Navigation -->
+                <nav class="flex items-center gap-10">
+                    <button data-section="home" class="nav-btn group relative">
+                        <ion-icon name="home-outline"
+                            class="text-xl text-slate-600 group-hover:text-sys-cyan transition-colors"></ion-icon>
+                        <span
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-4 px-2 py-1 bg-sys-cyan text-black text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase">HOME</span>
+                    </button>
+                    <button data-section="about" class="nav-btn group relative">
+                        <ion-icon name="person-outline"
+                            class="text-xl text-slate-600 group-hover:text-sys-cyan transition-colors"></ion-icon>
+                        <span
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-4 px-2 py-1 bg-sys-cyan text-black text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase">IDENTITY</span>
+                    </button>
+                    <button data-section="project" class="nav-btn group relative">
+                        <ion-icon name="code-working-outline"
+                            class="text-xl text-slate-600 group-hover:text-sys-cyan transition-colors"></ion-icon>
+                        <span
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-4 px-2 py-1 bg-sys-cyan text-black text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase">PROJECT</span>
+                    </button>
+                    <button data-section="certificates" class="nav-btn group relative">
+                        <ion-icon name="ribbon-outline"
+                            class="text-xl text-slate-600 group-hover:text-sys-cyan transition-colors"></ion-icon>
+                        <span
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-4 px-2 py-1 bg-sys-cyan text-black text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase">CERTIFICATES</span>
+                    </button>
+                    <button data-section="contact" class="nav-btn group relative">
+                        <ion-icon name="mail-outline"
+                            class="text-xl text-slate-600 group-hover:text-sys-cyan transition-colors"></ion-icon>
+                        <span
+                            class="absolute top-full left-1/2 -translate-x-1/2 mt-4 px-2 py-1 bg-sys-cyan text-black text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase">CONTACTS</span>
+                    </button>
+                </nav>
+
+                <!-- Right: Stats & Profile -->
+                <div class="flex items-center gap-8">
+                    <div class="hidden sm:flex items-center gap-3">
+                        <span class="status-dot"></span>
+                        <span id="digital-clock" class="mono text-xs text-sys-cyan tracking-widest">00:00:00</span>
+                    </div>
+                    <div class="h-8 w-px bg-white/5 hidden sm:block"></div>
+                    <a href="mailto:admin@sys.local" class="system-badge scale-90 md:scale-100">Christopher_Panoy</a>
+                    <button
+                        class="w-10 h-10 rounded-full border border-white/5 flex items-center justify-center text-slate-600 hover:text-white transition-colors">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Workspace Area -->
+            <div id="workspace" class="flex-1 p-12 relative">
+
+                <!-- SECTION: HOME -->
+                <section data-id="home" class="window absolute inset-12 active">
+                    <div class="window-header">
+                        <div class="flex gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
+                        </div>
+                        <span class="mono text-[9px] text-slate-500 uppercase">ROOT_TERMINAL // WELCOME</span>
+                        <span class="w-10 text-right text-slate-700">_</span>
+                    </div>
+                    <div class="window-content scrollbar-hide flex items-center justify-center text-center">
+                        <div class="max-w-5xl px-4">
+                            <span
+                                class="mono text-sys-cyan text-xs mb-6 block tracking-[0.3em] stagger-item">INITIATING_SEQUENCE_2.0</span>
+                            <h1
+                                class="text-5xl md:text-8xl font-black text-white leading-none tracking-tighter mb-8 glow-text uppercase stagger-item">
+                                CHRISYSTEMATIXX
+                            </h1>
+                            <p
+                                class="text-lg md:text-xl text-slate-400 mono mb-12 border-l border-sys-cyan/20 pl-8 text-left italic stagger-item">
+                                <span class="text-sys-cyan font-bold">[SYSTEM_LOG]</span> Purpose. Precision. Progress:
+                                Currently specializing in developing real-time platforms,
+                                and scalable learning management systems.
+
+                                My mission is to create intelligent systems that deliver measurable impact.
+                            </p>
+                            <div class="flex gap-4 justify-center stagger-item">
+                                <button data-target="project"
+                                    class="px-8 py-3 bg-sys-cyan text-black font-black uppercase text-[10px] tracking-widest hover:scale-105 transition-transform">Access_Project</button>
+                                <button data-target="about"
+                                    class="px-8 py-3 border border-white/10 text-white font-black uppercase text-[10px] tracking-widest hover:bg-white/5 transition-all">Identity_Log</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-id="about" class="window absolute inset-12">
+                    <div class="window-header">
+                        <div class="flex gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full border border-sys-cyan/40 bg-sys-cyan/20"></div>
+                        </div>
+                        <span
+                            class="mono text-[9px] text-sys-cyan/60 uppercase tracking-[0.2em]">PROTOCOL_ENTITY_ANALYSIS.DAT</span>
+                        <span class="w-10"></span>
+                    </div>
+                    <div class="window-content scrollbar-hide py-12 px-6 md:py-16 md:px-12">
+                        <div class="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-24 h-full items-start">
+                            <!-- Technical Image Frame -->
+                            <div class="relative group max-w-md mx-auto lg:mx-0 stagger-item pt-8">
+                                <!-- HUD Corners -->
+                                <div
+                                    class="absolute -top-4 -left-4 w-10 h-10 border-t-2 border-l-2 border-sys-cyan/50 z-10 transition-all group-hover:-top-2 group-hover:-left-2">
+                                </div>
+                                <div
+                                    class="absolute -bottom-4 -right-4 w-10 h-10 border-b-2 border-r-2 border-sys-cyan/50 z-10 transition-all group-hover:-bottom-2 group-hover:-right-2">
+                                </div>
+
+                                <div class="relative overflow-hidden border border-white/5 bg-sys-bg">
+                                    <div class="scan-line-anim"></div>
+                                    <img src="/tope.jpg"
+                                        class="w-full grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000 scale-105 group-hover:scale-100" />
+                                    <!-- Scan Overlay -->
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-b from-sys-cyan/10 to-transparent opacity-30 pointer-events-none">
+                                    </div>
+                                </div>
+
+                                <!-- Floating Status -->
+                                <div
+                                    class="absolute -right-8 top-1/4 mono text-[8px] space-y-2 bg-black/80 p-3 border border-sys-cyan/20 backdrop-blur-md z-20 hidden md:block">
+                                    <div class="text-sys-cyan">DNA_MATCH: 100%</div>
+                                    <div class="text-white/40">ORIGIN: PH_MANILA</div>
+                                    <div class="text-white/40">RANK: ELITE_DEV</div>
+                                </div>
+                            </div>
+
+                            <!-- Identity Data -->
+                            <div class="space-y-10">
+                                <div class="stagger-item">
+                                    <h2
+                                        class="text-4xl md:text-6xl font-black text-white mb-2 tracking-tighter leading-none glow-text glitch-hover">
+                                        Christopher <span class="text-sys-cyan">M.</span> Panoy
+                                    </h2>
+                                    <div class="mono text-xs text-sys-cyan/60 uppercase tracking-[0.4em] mb-8">
+                                        System_Developer // Full_Stack</div>
+
+                                    <p
+                                        class="text-slate-400 mono text-sm leading-relaxed max-w-lg border-l-2 border-sys-cyan/20 pl-6 italic">
+                                        I am Aspiring Systems Developer currently in my fourth year of study of Bachelor
+                                        of
+                                        Science in Information System. I am also recognized as one of the innovators in
+                                        our institution, actively involved in designing and developing technology-driven
+                                        solutions. My approach to development focuses on optimizing user interaction
+                                        through clean, structured, and purposeful design patterns. I strongly believe
+                                        that every element in a system — down to every pixel — should serve a clear
+                                        functional objective.
+
+                                        Guided by my core principles of precision and progress, I aim to continuously
+                                        improve my technical skills and create systems that are efficient, scalable, and
+                                        impactful. My long-term goal is to contribute meaningful innovations that
+                                        enhance digital experiences and solve real-world problems.
+                                    </p>
+                                </div>
+
+                                <!-- Technical Skills Bar -->
+                                <div class="grid gap-6">
+                                    <div class="space-y-2 stagger-item">
+                                        <div
+                                            class="flex justify-between items-center mono text-[9px] uppercase tracking-widest text-slate-500">
+                                            <span>[JavaScript/React]</span>
+                                            <span class="text-sys-cyan">92%</span>
+                                        </div>
+                                        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div
+                                                class="h-full bg-sys-cyan w-[92%] shadow-[0_0_10px_rgba(0,242,255,0.5)]">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2 stagger-item">
+                                        <div
+                                            class="flex justify-between items-center mono text-[9px] uppercase tracking-widest text-slate-500">
+                                            <span>[Tailwind/Figma]</span>
+                                            <span class="text-sys-blue">88%</span>
+                                        </div>
+                                        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div
+                                                class="h-full bg-sys-blue w-[88%] shadow-[0_0_10px_rgba(0,102,255,0.5)]">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2 stagger-item">
+                                        <div
+                                            class="flex justify-between items-center mono text-[9px] uppercase tracking-widest text-slate-500">
+                                            <span>[Node/Backend]</span>
+                                            <span class="text-sys-pink">80%</span>
+                                        </div>
+                                        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div
+                                                class="h-full bg-sys-pink w-[80%] shadow-[0_0_10px_rgba(255,0,255,0.5)]">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2 stagger-item">
+                                        <div
+                                            class="flex justify-between items-center mono text-[9px] uppercase tracking-widest text-slate-500">
+                                            <span> [Python/Django]</span>
+                                            <span class="text-sys-cyan">80%</span>
+                                        </div>
+                                        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div
+                                                class="h-full bg-sys-cyan w-[80%] shadow-[0_0_10px_rgba(0,242,255,0.5)]">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2 stagger-item">
+                                        <div
+                                            class="flex justify-between items-center mono text-[9px] uppercase tracking-widest text-slate-500">
+                                            <span>[PHP/MySQL]</span>
+                                            <span class="text-sys-blue">80%</span>
+                                        </div>
+                                        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div
+                                                class="h-full bg-sys-blue w-[80%] shadow-[0_0_10px_rgba(0,102,255,0.5)]">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2 stagger-item">
+                                        <div
+                                            class="flex justify-between items-center mono text-[9px] uppercase tracking-widest text-slate-500">
+                                            <span>[Prompt Engineering]</span>
+                                            <span class="text-sys-cyan">80%</span>
+                                        </div>
+                                        <div class="h-1 bg-white/5 rounded-full overflow-hidden">
+                                            <div
+                                                class="h-full bg-sys-cyan w-[80%] shadow-[0_0_10px_rgba(0,242,255,0.5)]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="flex gap-8 pt-4 stagger-item">
+                                    <div class="flex flex-col">
+                                        <span class="text-2xl font-black text-white">50+</span>
+                                        <span class="mono text-[8px] text-slate-600 uppercase">Commits_Logged</span>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-2xl font-black text-white">02</span>
+                                        <span class="mono text-[8px] text-slate-600 uppercase">Active_Years</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: PROJECT -->
+                <section data-id="project" class="window absolute inset-12">
+                    <div class="window-header">
+                        <div class="flex gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full border border-white/20"></div>
+                        </div>
+                        <span class="mono text-[9px] text-slate-500 uppercase">DEPLOY_PROJECT.BIN</span>
+                        <div
+                            class="flex items-center gap-4 mono text-[8px] text-sys-cyan font-bold uppercase tracking-widest">
+                            <span>TOTAL: 06</span>
+                            <span class="text-slate-700">|</span>
+                            <span>FILTER: ALL</span>
+                        </div>
+                    </div>
+                    <div class="window-content scrollbar-hide">
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Card -->
+                            <div
+                                class="group border border-white/5 bg-white/[0.01] p-4 transition-all hover:border-sys-cyan/20 hover:bg-white/[0.03] stagger-item">
+                                <div
+                                    class="aspect-video bg-white/5 border border-white/10 mb-6 overflow-hidden relative group-card">
+                                    <div
+                                        class="absolute top-0 left-0 w-4 h-4 border-t border-l border-sys-cyan/50 z-10 transition-all group-hover:w-8 group-hover:h-8">
+                                    </div>
+                                    <img src="/Tope1.png"
+                                        class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                                    <div
+                                        class="absolute inset-0 bg-sys-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    </div>
+                                </div>
+                                <h4
+                                    class="text-sm font-bold text-white group-hover:text-sys-cyan transition-colors mono tracking-tighter uppercase leading-tight mb-3">
+                                    COMPUTER LABORATORIES AUTOMATED ACCESS CONTROL FOR SANTA RITA COLLEGE OF PAMPANGA
+                                    BSIS STUDENT</h4>
+                                <div class="flex gap-2 mb-4">
+                                    <span class="badge mono border-sys-cyan/30 text-sys-cyan">PHP</span>
+                                    <span class="badge mono border-sys-blue/30 text-sys-blue">Tailwind</span>
+                                    <span class="badge mono border-sys-pink/30 text-sys-pink">MySQL</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mono leading-relaxed line-clamp-3 mb-6">
+                                    <a href="https://src.edu.ph/src_laboratory" target="_blank"
+                                        class="text-sys-cyan font-bold hover:underline">[src.edu.ph/src_laboratory]</a>
+                                    A high-fidelity access control system designed to streamline laboratory entry for
+                                    BSIS students, featuring automated verification and secure logging.
+                                </p>
+                                <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                                    <a href="https://chrispanoy.github.io/RCLAMS_SYSTEM-DEMO" target="_blank"
+                                        class="flex items-center gap-2 text-sys-cyan mono text-[9px] font-bold hover:underline">
+                                        <ion-icon name="logo-github" class="text-xs"></ion-icon>
+                                        VIEW_DEMO_LIVE
+                                    </a>
+                                    <span class="text-[8px] text-slate-700 mono italic">SECURE_LINK</span>
+                                </div>
+                            </div>
+                            <!-- Card 2 -->
+                            <div
+                                class="group border border-white/5 bg-white/[0.01] p-4 transition-all hover:border-sys-cyan/20 hover:bg-white/[0.03] stagger-item">
+                                <div
+                                    class="aspect-video bg-white/5 border border-white/10 mb-6 overflow-hidden relative group-card">
+                                    <div
+                                        class="absolute top-0 left-0 w-4 h-4 border-t border-l border-sys-cyan/50 z-10 transition-all group-hover:w-8 group-hover:h-8">
+                                    </div>
+                                    <img src="/Tope2.png"
+                                        class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                                </div>
+                                <h4
+                                    class="text-sm font-bold text-white group-hover:text-sys-cyan transition-colors mono tracking-tighter uppercase leading-tight mb-3">
+                                    BSIS Learning Management System</h4>
+                                <div class="flex gap-2 mb-4">
+                                    <span class="badge mono border-sys-pink/30 text-sys-pink">React</span>
+                                    <span class="badge mono border-sys-blue/30 text-sys-blue">Node</span>
+                                    <span class="badge mono border-sys-green/30 text-sys-green">Express</span>
+                                    <span class="badge mono border-sys-cyan/30 text-sys-cyan">REST API</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mono leading-relaxed line-clamp-3 mb-6">
+                                    <a href="https://chrispanoy.github.io/BSIS-LMS-Demo/" target="_blank"
+                                        class="text-sys-cyan font-bold hover:underline">[isquiz.src.edu.ph]</a> A
+                                    precision-engineered learning management platform designed to provide the SRC
+                                    institution with a resilient, secure, and performance-driven academic ecosystem. It
+                                    transforms traditional learning workflows into structured digital experiences
+                                    through intelligent system design and modern user interaction principles.
+                                </p>
+                                <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                                    <a href="https://chrispanoy.github.io/BSIS-LMS-Demo/"
+                                        class="flex items-center gap-2 text-sys-cyan mono text-[9px] font-bold hover:underline">
+                                        <ion-icon name="logo-github" class="text-xs"></ion-icon>
+                                        VIEW_DEMO_LIVE
+                                    </a>
+                                    <span class="text-[8px] text-slate-700 mono italic">ALPHA_BUILD</span>
+                                </div>
+                            </div>
+                            <!-- Card 3 -->
+                            <div
+                                class="group border border-white/5 bg-white/[0.01] p-4 transition-all hover:border-sys-cyan/20 hover:bg-white/[0.03] stagger-item">
+                                <div
+                                    class="aspect-video bg-white/5 border border-white/10 mb-6 overflow-hidden relative group-card">
+                                    <div
+                                        class="absolute top-0 left-0 w-4 h-4 border-t border-l border-sys-cyan/50 z-10 transition-all group-hover:w-8 group-hover:h-8">
+                                    </div>
+                                    <img src="/tope3.png"
+                                        class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                                </div>
+                                <h4
+                                    class="text-sm font-bold text-white group-hover:text-sys-cyan transition-colors mono tracking-tighter uppercase leading-tight mb-3">
+                                    SANTA RITA COLLEGE TABULATION SYSTEM</h4>
+                                <div class="flex gap-2 mb-4">
+                                    <span class="badge mono border-sys-cyan/30 text-sys-cyan">PHP</span>
+                                    <span class="badge mono border-sys-blue/30 text-sys-blue">LARAVEL</span>
+                                    <span class="badge mono border-sys-pink/30 text-sys-pink">MySQL</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mono leading-relaxed line-clamp-3 mb-6">
+                                    <a href="https://src.edu.ph/src_tabulator" target="_blank"
+                                        class="text-sys-cyan font-bold hover:underline">[src.edu.ph/src_tabulator]</a> A
+                                    precision-engineered automated tabulation and evaluation dashboard for real-time
+                                    monitoring and advanced live analytics.
+                                </p>
+                                <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                                    <a href="https://chrispanoy.github.io/TabulationX-Demo/dean/dashboard.html"
+                                        target="_blank"
+                                        class="flex items-center gap-2 text-sys-cyan mono text-[9px] font-bold hover:underline">
+                                        <ion-icon name="logo-github" class="text-xs"></ion-icon>
+                                        VIEW_DEMO_LIVE
+                                    </a>
+                                    <span class="text-[8px] text-slate-700 mono italic">SYSTEM_ONLINE</span>
+                                </div>
+                            </div>
+                            <!-- Card 4 -->
+                            <div
+                                class="group border border-white/5 bg-white/[0.01] p-4 transition-all hover:border-sys-cyan/20 hover:bg-white/[0.03] stagger-item">
+                                <div
+                                    class="aspect-video bg-white/5 border border-white/10 mb-6 overflow-hidden relative group-card">
+                                    <div
+                                        class="absolute top-0 left-0 w-4 h-4 border-t border-l border-sys-cyan/50 z-10 transition-all group-hover:w-8 group-hover:h-8">
+                                    </div>
+                                    <img src="/tope4.png"
+                                        class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                                    <div
+                                        class="absolute inset-0 bg-sys-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    </div>
+                                </div>
+                                <h4
+                                    class="text-sm font-bold text-white group-hover:text-sys-cyan transition-colors mono tracking-tighter uppercase leading-tight mb-3">
+                                    Santa Rita College Employee Attendance</h4>
+                                <div class="flex gap-2 mb-4">
+                                    <span class="badge mono border-sys-cyan/30 text-sys-cyan">PHP</span>
+                                    <span class="badge mono border-sys-blue/30 text-sys-blue">Tailwind</span>
+                                    <span class="badge mono border-sys-pink/30 text-sys-pink">MySQL</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mono leading-relaxed line-clamp-3 mb-6">
+                                    <a href="https://src.edu.ph/" target="_blank"
+                                        class="text-sys-cyan font-bold hover:underline">[src.edu.ph/src_employee]</a> A
+                                    precision-engineered employee attendance tracking system for Santa Rita College,
+                                    designed to automate institutional HR workflows and biometric verification
+                                    processes.
+                                </p>
+                                <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                                    <a href="https://chrispanoy.github.io/Src_employee-Demo" target="_blank"
+                                        class="flex items-center gap-2 text-sys-cyan mono text-[9px] font-bold hover:underline">
+                                        <ion-icon name="logo-github" class="text-xs"></ion-icon>
+                                        VIEW_DEMO_LIVE
+                                    </a>
+                                    <span class="text-[8px] text-slate-700 mono italic">SECURE_BUILD</span>
+                                </div>
+                            </div>
+                            <!-- Card 5 -->
+                            <div
+                                class="group border border-white/5 bg-white/[0.01] p-4 transition-all hover:border-sys-cyan/20 hover:bg-white/[0.03] stagger-item">
+                                <div
+                                    class="aspect-video bg-white/5 border border-white/10 mb-6 overflow-hidden relative group-card">
+                                    <div
+                                        class="absolute top-0 left-0 w-4 h-4 border-t border-l border-sys-cyan/50 z-10 transition-all group-hover:w-8 group-hover:h-8">
+                                    </div>
+                                    <img src="/tope5.png"
+                                        class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                                    <div
+                                        class="absolute inset-0 bg-sys-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    </div>
+                                </div>
+                                <h4
+                                    class="text-sm font-bold text-white group-hover:text-sys-cyan transition-colors mono tracking-tighter uppercase leading-tight mb-3">
+                                    CCS OJT MONITORING SYSTEM</h4>
+                                <div class="flex gap-2 mb-4">
+                                    <span class="badge mono border-sys-pink/30 text-sys-pink">PHP</span>
+                                    <span class="badge mono border-sys-red/30 text-sys-red">Bootstrap</span>
+                                    <span class="badge mono border-sys-cyan/30 text-sys-cyan">MySQL</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mono leading-relaxed line-clamp-3 mb-6">
+                                    <a href="https://src.edu.ph/ccsojt" target="_blank"
+                                        class="text-sys-cyan font-bold hover:underline">[src.edu.ph/ccsojt]</a>
+                                    A precise monitoring system designed for CCS OJT students. Proudly co-authored to
+                                    ensure reliable tracking and comprehensive evaluation of trainee performance.
+                                </p>
+                                <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                                    <a href="https://chrispanoy.github.io/ccsojt-monitoring-demo" target="_blank"
+                                        class="flex items-center gap-2 text-sys-cyan mono text-[9px] font-bold hover:underline">
+                                        <ion-icon name="logo-github" class="text-xs"></ion-icon>
+                                        VIEW_DEMO_LIVE
+                                    </a>
+                                    <span class="text-[8px] text-slate-700 mono italic">SYSTEM_ONLINE</span>
+                                </div>
+                            </div>
+                            <!-- Card 6 -->
+                            <div
+                                class="group border border-white/5 bg-white/[0.01] p-4 transition-all hover:border-sys-cyan/20 hover:bg-white/[0.03] stagger-item">
+                                <div
+                                    class="aspect-video bg-white/5 border border-white/10 mb-6 overflow-hidden relative group-card">
+                                    <div
+                                        class="absolute top-0 left-0 w-4 h-4 border-t border-l border-sys-cyan/50 z-10 transition-all group-hover:w-8 group-hover:h-8">
+                                    </div>
+                                    <img src="/tope7.png"
+                                        class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                                    <div
+                                        class="absolute inset-0 bg-sys-cyan/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    </div>
+                                </div>
+                                <h4
+                                    class="text-sm font-bold text-white group-hover:text-sys-cyan transition-colors mono tracking-tighter uppercase leading-tight mb-3">
+                                    POVL POS (Project Ohms Vape Lounge)</h4>
+                                <div class="flex gap-2 mb-4">
+                                    <span class="badge mono border-sys-pink/30 text-sys-pink">React Vite</span>
+                                    <span class="badge mono border-sys-blue/30 text-sys-blue">Node Express</span>
+                                    <span class="badge mono border-sys-cyan/30 text-sys-cyan">REST API</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mono leading-relaxed line-clamp-3 mb-6">
+                                    <a href="https://chrispanoy.github.io/vapeshop-demo" target="_blank"
+                                        class="text-sys-cyan font-bold hover:underline">[vapeshop-demo]</a>
+                                    A high-performance Point of Sale and Inventory Management system designed for
+                                    real-time business operations, featuring automated reporting and multi-branch
+                                    monitoring.
+                                </p>
+                                <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                                    <a href="https://chrispanoy.github.io/vapeshop-demo" target="_blank"
+                                        class="flex items-center gap-2 text-sys-cyan mono text-[9px] font-bold hover:underline">
+                                        <ion-icon name="logo-github" class="text-xs"></ion-icon>
+                                        VIEW_DEMO_LIVE
+                                    </a>
+                                    <span class="text-[8px] text-slate-700 mono italic">SYSTEM_STABLE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: CERTIFICATES -->
+                <section data-id="certificates" class="window absolute inset-12">
+                    <div class="window-header">
+                        <div class="flex gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full border border-sys-cyan/40 bg-sys-cyan/20"></div>
+                        </div>
+                        <span
+                            class="mono text-[9px] text-sys-cyan/60 uppercase tracking-[0.2em]">PROTOCOL_CERTIFICATE_REPOSITORY.DAT</span>
+                        <span class="w-10"></span>
+                    </div>
+                    <div class="window-content scrollbar-hide py-12 px-8">
+
+                        <!-- Category 01 -->
+                        <div class="mb-16">
+                            <div class="flex items-center gap-4 mb-10 stagger-item">
+                                <div class="h-px w-8 bg-sys-cyan/30"></div>
+                                <h3 class="mono text-[10px] text-sys-cyan font-bold tracking-[0.4em] uppercase">
+                                    Category_01 // Institutional_&_Academic</h3>
+                                <div class="h-px flex-1 bg-gradient-to-r from-sys-cyan/30 to-transparent"></div>
+                            </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                                <!-- Capstone Project -->
+                                <div class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center transition-all hover:border-sys-cyan/30 hover:bg-sys-cyan/[0.02] relative overflow-hidden stagger-item cursor-pointer"
+                                    onclick="openCertificateViewer('Capstone Project', ['/cap1.jpg', '/cap2.jpg', '/cap3.jpg'])">
+                                    <div
+                                        class="absolute top-0 right-0 w-8 h-8 bg-sys-cyan/5 rotate-45 translate-x-4 -translate-y-4 transition-transform group-hover:bg-sys-cyan/10">
+                                    </div>
+                                    <div
+                                        class="absolute top-1 right-1 opacity-20 group-hover:opacity-100 transition-opacity">
+                                        <span class="mono text-[7px] text-sys-cyan">[x3_FILES]</span>
+                                    </div>
+                                    <ion-icon name="bulb-outline"
+                                        class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                    <span
+                                        class="mono text-[9px] text-slate-300 font-black uppercase text-center group-hover:text-white transition-colors leading-tight">Capstone
+                                        Project</span>
+                                    <div class="mt-4 flex flex-col items-center gap-1">
+                                        <span
+                                            class="mono text-[6px] text-slate-600 uppercase tracking-widest">Auth_Status</span>
+                                        <span
+                                            class="mono text-[7px] text-sys-cyan font-bold uppercase tracking-tighter">[VIEW_FILES]</span>
+                                    </div>
+                                </div>
+
+                                <!-- Cloudstaff -->
+                                <div class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center transition-all hover:border-sys-cyan/30 hover:bg-sys-cyan/[0.02] relative overflow-hidden stagger-item cursor-pointer"
+                                    onclick="openCertificateViewer('Cloudstaff', ['/cl1.jpg', '/cl2.jpg'])">
+                                    <div
+                                        class="absolute top-0 right-0 w-8 h-8 bg-sys-cyan/5 rotate-45 translate-x-4 -translate-y-4 transition-transform group-hover:bg-sys-cyan/10">
+                                    </div>
+                                    <div
+                                        class="absolute top-1 right-1 opacity-20 group-hover:opacity-100 transition-opacity">
+                                        <span class="mono text-[7px] text-sys-cyan">[x2_FILES]</span>
+                                    </div>
+                                    <ion-icon name="cloud-done-outline"
+                                        class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                    <span
+                                        class="mono text-[9px] text-slate-300 font-black uppercase text-center group-hover:text-white transition-colors leading-tight">Cloudstaff</span>
+                                    <div class="mt-4 flex flex-col items-center gap-1">
+                                        <span
+                                            class="mono text-[6px] text-slate-600 uppercase tracking-widest">Auth_Status</span>
+                                        <span
+                                            class="mono text-[7px] text-sys-cyan font-bold uppercase tracking-tighter">[VIEW_FILES]</span>
+                                    </div>
+                                </div>
+
+                                <!-- Seminar -->
+                                <div class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center transition-all hover:border-sys-cyan/30 hover:bg-sys-cyan/[0.02] relative overflow-hidden stagger-item cursor-pointer"
+                                    onclick="openCertificateViewer('Seminar', ['/src1.jpg', '/src2.jpg'])">
+                                    <div
+                                        class="absolute top-0 right-0 w-8 h-8 bg-sys-cyan/5 rotate-45 translate-x-4 -translate-y-4 transition-transform group-hover:bg-sys-cyan/10">
+                                    </div>
+                                    <div
+                                        class="absolute top-1 right-1 opacity-20 group-hover:opacity-100 transition-opacity">
+                                        <span class="mono text-[7px] text-sys-cyan">[x2_FILES]</span>
+                                    </div>
+                                    <ion-icon name="school-outline"
+                                        class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                    <span
+                                        class="mono text-[9px] text-slate-300 font-black uppercase text-center group-hover:text-white transition-colors leading-tight">Seminar</span>
+                                    <div class="mt-4 flex flex-col items-center gap-1">
+                                        <span
+                                            class="mono text-[6px] text-slate-600 uppercase tracking-widest">Auth_Status</span>
+                                        <span
+                                            class="mono text-[7px] text-sys-cyan font-bold uppercase tracking-tighter">[VIEW_FILES]</span>
+                                    </div>
+                                </div>
+
+                                <!-- PSITE Central Luzon -->
+                                <div class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center transition-all hover:border-sys-cyan/30 hover:bg-sys-cyan/[0.02] relative overflow-hidden stagger-item cursor-pointer"
+                                    onclick="openCertificateViewer('PSITE Central Luzon', ['/psite1.jpg'])">
+                                    <div
+                                        class="absolute top-0 right-0 w-8 h-8 bg-sys-cyan/5 rotate-45 translate-x-4 -translate-y-4 transition-transform group-hover:bg-sys-cyan/10">
+                                    </div>
+                                    <div
+                                        class="absolute top-1 right-1 opacity-20 group-hover:opacity-100 transition-opacity">
+                                        <span class="mono text-[7px] text-sys-cyan">[x1_FILE]</span>
+                                    </div>
+                                    <ion-icon name="ribbon-outline"
+                                        class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                    <span
+                                        class="mono text-[9px] text-slate-300 font-black uppercase text-center group-hover:text-white transition-colors leading-tight">PSITE
+                                        Central Luzon</span>
+                                    <div class="mt-4 flex flex-col items-center gap-1">
+                                        <span
+                                            class="mono text-[6px] text-slate-600 uppercase tracking-widest">Auth_Status</span>
+                                        <span
+                                            class="mono text-[7px] text-sys-cyan font-bold uppercase tracking-tighter">[VIEW_FILE]</span>
+                                    </div>
+                                </div>
+
+                                <!-- Credly(NET ACAD) -->
+                                <div class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center transition-all hover:border-sys-cyan/30 hover:bg-sys-cyan/[0.02] relative overflow-hidden stagger-item cursor-pointer"
+                                    onclick="openCertificateViewer('Credly(NET ACAD)', ['/c1.png', '/c2.png', '/c3.png', '/c4.png', '/c5.png'])">
+                                    <div
+                                        class="absolute top-0 right-0 w-8 h-8 bg-sys-cyan/5 rotate-45 translate-x-4 -translate-y-4 transition-transform group-hover:bg-sys-cyan/10">
+                                    </div>
+                                    <div
+                                        class="absolute top-1 right-1 opacity-20 group-hover:opacity-100 transition-opacity">
+                                        <span class="mono text-[7px] text-sys-cyan">[x5_FILES]</span>
+                                    </div>
+                                    <ion-icon name="shield-checkmark-outline"
+                                        class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                    <span
+                                        class="mono text-[9px] text-slate-300 font-black uppercase text-center group-hover:text-white transition-colors leading-tight">Credly(NET
+                                        ACAD)</span>
+                                    <div class="mt-4 flex flex-col items-center gap-1">
+                                        <span
+                                            class="mono text-[6px] text-slate-600 uppercase tracking-widest">Auth_Status</span>
+                                        <span
+                                            class="mono text-[7px] text-sys-cyan font-bold uppercase tracking-tighter">[VIEW_FILES]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- SECTION: CONTACT -->
+                <section data-id="contact" class="window absolute inset-12">
+                    <div class="window-header">
+                        <div class="flex gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full border border-sys-cyan/40 bg-sys-cyan/20"></div>
+                        </div>
+                        <span
+                            class="mono text-[9px] text-sys-cyan/60 uppercase tracking-[0.2em]">PROTOCOL_COMMUNICATION_UPLINK.SH</span>
+                        <span class="w-10"></span>
+                    </div>
+                    <div class="window-content scrollbar-hide py-16 px-12">
+                        <div class="max-w-4xl mx-auto">
+                            <div class="mb-16 stagger-item">
+                                <h2
+                                    class="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter glow-text uppercase">
+                                    Signal_Override</h2>
+                                <p
+                                    class="mono text-xs text-slate-500 max-w-lg border-l border-sys-cyan/20 pl-4 uppercase tracking-[0.3em] leading-relaxed">
+                                    Available for elite collaborations, full-stack developments, and mission-critical
+                                    system design.</p>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-12">
+                                <!-- LEFT: Direct Channels -->
+                                <div class="space-y-8 stagger-item">
+                                    <div
+                                        class="group border border-white/5 bg-white/[0.01] p-8 hover:border-sys-cyan/30 transition-all relative overflow-hidden">
+                                        <div
+                                            class="absolute top-0 right-0 w-12 h-12 bg-sys-cyan/5 rotate-45 translate-x-6 -translate-y-6">
+                                        </div>
+                                        <div class="mono text-[8px] text-slate-600 mb-6 uppercase tracking-[0.3em]">
+                                            Channel_01 // SECURE_MAIL</div>
+                                        <a href="mailto:christophermadeja7@gmail.com"
+                                            class="text-2xl font-black text-white hover:text-sys-cyan transition-colors mono lowercase">christophermadeja7@gmail.com</a>
+                                        <div class="mt-4 flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-sys-cyan animate-pulse"></span>
+                                            <span class="mono text-[8px] text-sys-cyan uppercase">Primary_Node</span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="group border border-white/5 bg-white/[0.01] p-8 hover:border-sys-cyan/30 transition-all relative overflow-hidden">
+                                        <div
+                                            class="absolute top-0 right-0 w-12 h-12 bg-sys-cyan/5 rotate-45 translate-x-6 -translate-y-6">
+                                        </div>
+                                        <div class="mono text-[8px] text-slate-600 mb-6 uppercase tracking-[0.3em]">
+                                            Channel_02 // VOIP_SIGNAL</div>
+                                        <span class="text-2xl font-black text-white mono">+63 9309971418</span>
+                                        <div class="mt-4 flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-slate-800"></span>
+                                            <span class="mono text-[8px] text-slate-600 uppercase">Cellphone_Line</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- RIGHT: Matrix Linkages -->
+                                <div class="grid grid-cols-2 gap-6 stagger-item">
+                                    <a href="https://github.com/chrispanoy" target="_blank"
+                                        class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center hover:border-sys-cyan/40 hover:bg-sys-cyan/[0.02] transition-all">
+                                        <ion-icon name="logo-github"
+                                            class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                        <span
+                                            class="mono text-[9px] text-slate-500 group-hover:text-white uppercase tracking-[0.2em] text-center">GITHUB</span>
+                                    </a>
+                                    <a href="https://www.instagram.com/tantadoooooo?igsh=aXpqc2p0ZXczMjU4"
+                                        target="_blank"
+                                        class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center hover:border-sys-cyan/40 hover:bg-sys-cyan/[0.02] transition-all">
+                                        <ion-icon name="logo-instagram"
+                                            class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                        <span
+                                            class="mono text-[9px] text-slate-500 group-hover:text-white uppercase tracking-[0.2em] text-center">INSTAGRAM</span>
+                                    </a>
+                                    <a href="https://web.facebook.com/christopher.madeja.13" target="_blank"
+                                        class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center hover:border-sys-cyan/40 hover:bg-sys-cyan/[0.02] transition-all">
+                                        <ion-icon name="logo-facebook"
+                                            class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                        <span
+                                            class="mono text-[9px] text-slate-500 group-hover:text-white uppercase tracking-[0.2em] text-center">FACEBOOK</span>
+                                    </a>
+                                    <a href="https://t.me/chrisystematixx" target="_blank"
+                                        class="group border border-white/5 bg-white/[0.01] p-6 flex flex-col items-center justify-center hover:border-sys-cyan/40 hover:bg-sys-cyan/[0.02] transition-all">
+                                        <ion-icon name="paper-plane-outline"
+                                            class="text-3xl text-slate-700 group-hover:text-sys-cyan transition-colors mb-4"></ion-icon>
+                                        <span
+                                            class="mono text-[9px] text-slate-500 group-hover:text-white uppercase tracking-[0.2em] text-center">TELEGRAM</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer Taskbar HUD -->
+            <footer
+                class="h-12 border-t border-white/5 bg-black/60 px-8 flex items-center justify-between text-[8px] mono text-slate-600">
+                <div class="flex gap-8">
+                    <span>RUNTIME: 100%_ACTIVE</span>
+                    <span>MEMORY: 128TB_FREE</span>
+                    <span>TEMP: 32.4°C</span>
+                </div>
+                <div class="flex gap-6 uppercase tracking-widest font-bold">
+                    <a href="#" class="hover:text-sys-cyan transition-colors">Github_Repository</a>
+                    <a href="#" class="hover:text-sys-cyan transition-colors">Linkedin_Protocol</a>
+                    <span class="text-slate-800">|</span>
+                    <span class="text-sys-cyan animate-pulse">SYSTEM_STABLE</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Module: System Asset Viewer -->
+    <div id="cert-viewer"
+        class="fixed inset-0 z-[1000] opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-6 backdrop-blur-sm">
+        <div class="absolute inset-0 bg-black/80" onclick="closeCertViewer()"></div>
+        <div
+            class="window w-full max-w-6xl h-full max-h-[85vh] relative z-10 active flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.8)] border-l-2 border-sys-cyan">
+            <div class="window-header">
+                <div class="flex gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-red-500/50 cursor-pointer hover:bg-red-500 transition-colors"
+                        onclick="closeCertViewer()"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-slate-800"></div>
+                </div>
+                <span id="cert-viewer-title"
+                    class="mono text-[9px] text-sys-cyan uppercase tracking-[0.3em]">ASSET_DECRYPTION_UNIT.EXE</span>
+                <button onclick="closeCertViewer()" class="text-slate-600 hover:text-white transition-colors">
+                    <ion-icon name="close-outline" class="text-xl"></ion-icon>
+                </button>
+            </div>
+            <div class="window-content scrollbar-hide bg-black/40">
+                <div id="cert-viewer-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-12 h-full">
+                    <!-- Assets Injected by main.js -->
+                </div>
+            </div>
+            <div
+                class="h-10 border-t border-white/5 bg-black/60 px-6 flex items-center justify-between mono text-[7px] text-slate-600">
+                <span>SECURE_VIEW_STREAMS: ACTIVE</span>
+                <span id="cert-viewer-count" class="text-sys-cyan font-bold">FILES_LOGGED: 03</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
