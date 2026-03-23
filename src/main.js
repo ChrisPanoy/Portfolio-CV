@@ -148,7 +148,11 @@ window.closeCertViewer = () => {
 
 // INITIALIZE SYSTEM
 document.addEventListener('DOMContentLoaded', () => {
-    runBootLoader();
+    // Skip boot-loader and go straight to Home
+    if (typeof switchSection === 'function') {
+        switchSection('home');
+    }
+    
     startClock();
     initListeners();
     initMotion();
